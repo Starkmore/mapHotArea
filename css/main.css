@@ -1,0 +1,98 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.section{
+    background: #fff!important;
+
+}
+#menu {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    padding: 0.15625rem 0;
+    left: 0px;
+    top: 1.2rem;
+    width: 100%;
+    list-style-type: none;
+    z-index: 70;
+    background: #fff;
+    display: none;
+}
+
+#menu li {
+    float: left;
+    width: 25%;
+}
+
+#menu a {
+    display: block;
+    text-align: center;
+    height: 1.25rem;
+    line-height: 1.25rem;
+    color: #333;
+    font-size: 0.5875rem;
+    text-decoration: none;
+}
+
+#menu .active a {
+    color: #fff;
+    background-color: red;
+}
+
+.section {
+    /* text-align: center; */
+    /* font: 50px "Microsoft Yahei";
+    color: #0000; */
+    height: 100%;
+}
+
+.nav-wrapper {
+    padding-top: 0.15625rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    width: 100%;
+    color: red;
+    z-index: 1000;
+    font-size: 0.25rem;
+    background: #fff;
+}
+.navText{
+    display: inline-block;
+    width: 2.1625rem;
+    text-align: right;
+    /*margin-left: 1rem;*/
+    font-size: 0.6rem;
+}
+.arrow-down{
+    position: absolute;
+    top: 0.578125rem;
+    left: 2.5rem;
+    width: 0;
+    height: 0;
+    border: 0.3125rem solid transparent;
+    border-top: 0.3125rem solid red;
+}
+
+#detail-title{
+    padding:0 2.625rem 1.5rem;
+    background: #fff;
+}
+#detail-content{
+    padding:2rem 2.625rem 0.6rem;
+    font-size: 1rem;
+}
+#detail-content p{
+    margin-bottom: 0.46875rem;
+}
+    #detail-title h1{
+        padding: 2rem 0;
+        font-size: 2.78125rem;
+    }
+     #detail-title p{
+        font-size: 0.75rem;
+        color: #adabab;
+     }

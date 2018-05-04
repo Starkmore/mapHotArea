@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>详情</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style type="text/css">
+    	body{
+    		background: #f5f5f5;
+    	}
+    </style>
+    <script src="js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+	<div class="detail-wrapper">
+		<div id="detail-title">
+			<h1></h1>
+			<p class="detail-date"></p>
+			<p class="detail-info"></p>
+		</div>
+    	<div id="detail-content"></div>
+    </div>
+</body>
+    <script type="text/javascript">
+    	//获取url中的参数
+		function getUrlParam(name) {
+		 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		 var r = window.location.search.substr(1).match(reg); //匹配目标参数
+		 if (r != null) return unescape(r[2]); return null; //返回参数值
+		}
+		var id = getUrlParam('id');
+		RequestAjax(1)
+            function RequestAjax(current_page){
+                $.ajax({ 
+                    url: "https://appwx.people.cn/content/getdetail?articleid="+id,
+                    type:'GET',
+                    success: function(res){
+                        console.log(res);
+                        $('#detail-content').html(res.data.content)
+                        $('#detail-title h1').html(res.data.title) 
+                        $('#detail-title .detail-date').html(res.data.news_datetime);
+                        $('#detail-title .detail-info').html(res.data.copyfrom+'-'+res.data.authors) 
+                    }
+                });
+            }
+    </script>
+</html>

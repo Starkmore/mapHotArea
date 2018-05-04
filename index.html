@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>人民日报</title>
+
+    <link rel="stylesheet" href="css/jquery.fullPage.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style type="text/css">
+        body{
+    padding-top: 1.4rem;
+}
+    </style>
+    <script src="js/jquery-1.8.3.min.js"></script>
+
+    <script src="js/jquery-ui-1.10.3.min.js"></script>
+
+    <script src="js/jquery.fullPage.min.js"></script>
+
+</head>
+<body>
+    <script>
+        var zoom=function(e){
+            var e = e || window.event;
+            if(e.wheelDelta && event.ctrlKey){
+                event.returnValue = false
+            }else if(e.detail){
+                event.returnValue = false;
+            }
+        }
+        if(document.addEventListener){
+            document.addEventListener('DOMMouseScroll' , zoom , false);
+        }
+        window.onmousewheel = document.onmousewheel = zoom;
+        var docWidth =
+            640; //640为标准的屏幕
+        var fontsize = 64; //字体大小
+        (function(doc, win) {
+
+            var docEl = doc.documentElement,
+
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+
+                recalc = function() {
+
+                    var clientWidth = docEl.clientWidth;
+
+                    if (!clientWidth) return;
+
+                    if (clientWidth >= docWidth) {
+
+                        docEl.style.fontSize = fontsize + 'px';
+
+                    } else {
+                        docEl.style.fontSize = fontsize * (clientWidth / docWidth) + 'px';
+                    }
+                };
+
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+        $(document).ready(function() {
+            function callback(data) {
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html += '<div class="section"><img src="' + data[i].page_pic + '" class="planetmap" usemap="#planetmap'+i+'" width="100%" height="100%" ><map name="planetmap'+i+'" id="planetmap'+i+'">';
+                    var html1 = '';
+                    var items = data[i].items;
+                    for (var j = 0; j < items.length; j++) {
+                        var points = items[j].points.split(';');
+                        var points1 = points.join(',');
+                        html1 += '<area shape="polygon"  coords="' + points1 + '" href ="detail.html?id='+items[j].id+'" />'
+                    }
+                    html += html1;
+                    html += "</map></div>"
+                }
+                var navHtml = '<div class="nav-wrapper"><span class="navText">1版</span><p class="arrow-down"></p></div><ul id="menu">';
+                for (var ii = 0; ii < data.length; ii++) {
+                    if (ii == 0) {
+                        navHtml += '<li data-menuanchor="page' + (ii + 1) + '" class="active"><a href="#page' + (ii + 1) + '">' + (ii + 1) + '版</a></li>'
+                    }else{
+                        navHtml += '<li data-menuanchor="page' + (ii + 1) + '" ><a href="#page' + (ii + 1) + '">' + (ii + 1) + '版</a></li>'
+                    }
+                }
+                navHtml += '</ul>';
+                navHtml += html;
+                $('body').html(navHtml);
+                $.fn.fullpage({
+                    slidesColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', '#f90', '#1bbc9b', '#4BBFC3'],
+                    anchors: ['page1', 'page2', 'page3', 'page4', 'page5', 'page6', 'page7', 'page8', 'page9', 'page10', 'page11', 'page12', 'page13', 'page14', 'page15', 'page16', 'page17', 'page18', 'page19', 'page20', 'page21', 'page22', 'page23', 'page24'],
+                    menu: '#menu',
+                    afterLoad(e,index){
+                        var text = index+'版';
+                        $('.navText').html(text); 
+                    }
+                });
+                $('.arrow-down').on('click',function(){
+                    $('#menu').toggle();
+                });
+
+                $('#menu li').click(function(){
+                    var text = $(this).text();
+                    $('.navText').html(text); 
+                })
+                  
+            }   
+
+            RequestAjax(1)
+            function RequestAjax(current_page){
+                var fontSize = parseInt($('html').css('font-size'));
+                var winWidth = $(window).width();
+                var winHeight = $(window).height();
+                $.ajax({ 
+                    url: "https://appwx.people.cn/paper/getlist?pages_size="+winWidth+"x"+winHeight+"&networkState=wifi&deviceSize=750x1110&fromPlatform=wx",
+                    type:'GET',
+                    data:{
+                        group_id:0,
+                        current_page:current_page
+                    },
+                    success: function(res){
+                        callback(res.data)
+                    }
+                });
+            }
+        })
+    </script>
+
+</body>
+
+</html>
